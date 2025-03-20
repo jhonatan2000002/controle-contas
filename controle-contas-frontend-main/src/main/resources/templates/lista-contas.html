@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Contas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h2>Lista de Contas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="conta : ${contas}">
+                <td th:text="${conta.id}"></td>
+                <td th:text="${conta.descricao}"></td>
+                <td th:text="${conta.valor}"></td>
+                <td>
+                    <a th:href="@{/contas/editar/{id}(id=${conta.id})}">Editar</a>
+                    <a th:href="@{/contas/deletar/{id}(id=${conta.id})}">Excluir</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/home">Voltar</a>
+</body>
+</html>

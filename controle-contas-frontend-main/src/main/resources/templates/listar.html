@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Usuários</title>
+    <script>
+        async function carregarUsuarios() {
+            const response = await fetch("http://localhost:8081/api/usuarios"); 
+            const usuarios = await response.json();
+            const tabela = document.getElementById("tabelaUsuarios");
+            tabela.innerHTML = ""; 
+
+            usuarios.forEach(usuario => {
+                const row = `<tr>
+                    <td>${usuario.id}</td>
+                    <td>${usuario.nome}</td>
+                    <td>${usuario.email}</td>
+                    <td>
+                        <a href="/usuarios/editar/${usuario.id}">Editar</a>
+                        <a href="#" onclick="deletarUsuario(${usuario.id})">Excluir</a>
+                    </td>
+                </tr>`;
+                tabela.innerHTML += row;
+            });
+        }
+
+        async function deletarUsuario(id) {
+            await fetch(`http://localhost:8081/api/usuarios/${id}`, { method: 'DELETE' });
+            carregarUsuarios();
+        }
+
+        window.onload = carregarUsuarios; 
+    </script>
+</head>
+<body>
+    <h1>Usuários</h1>
+    <a href="/usuarios/cadastrar">Cadastrar Novo Usuário</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+        <tbody id="tabelaUsuarios"></tbody>
+    </table>
+</body>
+</html>
